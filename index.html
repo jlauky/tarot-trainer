@@ -34,6 +34,7 @@
     border-radius:999px;padding:8px 14px;cursor:pointer;font-size:13px}
   h1{font-size:20px;margin:0;letter-spacing:.5px}
   h1 .sub{color:var(--gold);font-weight:400}
+  h2 sup{font-size:.6em;font-weight:400}
   nav{display:flex;gap:6px;flex-wrap:wrap}
   nav button{background:var(--panel);color:var(--ink);border:1px solid var(--line);padding:8px 14px;border-radius:999px;
     cursor:pointer;font-size:13px}
@@ -109,6 +110,7 @@
   td,th{border:1px solid var(--line);padding:6px 8px;text-align:left}
   .lesson table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
   img{max-width:100%;height:auto}
+  .rev-img{transform:rotate(180deg)}
   #gate{position:fixed;inset:0;z-index:1000;background:var(--bg);display:flex;align-items:center;
     justify-content:center;padding:24px}
   #gate .gate-box{max-width:320px;width:100%;text-align:center}
@@ -1111,7 +1113,7 @@ function nextFlash(){
   fcCurrent._rev=reversed;
   let front='';
   if(fcMode==='img2mean'||fcMode==='reversed'){
-    front=`<img src="${c.file}" alt="hidden"><div class="prompt">${reversed?'⟳ Reversed':''}</div><div class="muted">Recall the meaning${reversed?' (reversed)':''}…</div>`;
+    front=`<img src="${c.file}" alt="hidden"${reversed?' class="rev-img"':''}><div class="prompt">${reversed?'⟳ Reversed':''}</div><div class="muted">Recall the meaning${reversed?' (reversed)':''}…</div>`;
   } else if(fcMode==='mean2name'){
     front=`<div class="prompt">"${c.up}"</div><div class="muted">Which card?</div>`;
   } else if(fcMode==='sym2name'){
@@ -1130,7 +1132,7 @@ function revealFlash(){
   const c=fcCurrent; const fc=document.getElementById('flashcard');
   const rev=c._rev;
   fc.innerHTML=`
-    <img src="${c.file}" alt="${c.name}" style="max-height:300px">
+    <img src="${c.file}" alt="${c.name}" style="max-height:300px"${rev?' class="rev-img"':''}>
     <div class="prompt">${c.name}${rev?' ⟳ (reversed)':''}</div>
     <div class="mean up"><h4>Upright</h4><div>${c.up}</div></div>
     <div class="mean rev"><h4>Reversed</h4><div>${c.rev}</div></div>`;
@@ -1253,12 +1255,19 @@ const JKEY='tarotJournal_v1';
 let journal=JSON.parse(localStorage.getItem(JKEY)||'[]');
 function saveJournal(){localStorage.setItem(JKEY,JSON.stringify(journal));}
 function todayStr(){return new Date().toISOString().slice(0,10);}
+function prettyDate(iso){
+  const d = iso ? new Date(iso+'T00:00:00') : new Date();
+  const day = d.getDate();
+  const suf = (day%10===1&&day!==11)?'st':(day%10===2&&day!==12)?'nd':(day%10===3&&day!==13)?'rd':'th';
+  const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  return `${day}<sup>${suf}</sup> ${months[d.getMonth()]}, ${d.getFullYear()}`;
+}
 function renderDaily(){
   const area=document.getElementById('dailyArea');
   let entry=journal.find(e=>e.date===todayStr());
   if(!entry){
     area.innerHTML=`<h2>Card of the day</h2>
-      <p class="muted">Take a breath, set an intention for the day, and draw.</p>
+      <p class="muted">Take a breath, set an intention for the day, and draw.<br>Drawing is only allowed once a day.</p>
       <button class="bigbtn" id="drawDaily">Draw today's card</button>`;
     document.getElementById('drawDaily').onclick=()=>{
       const c=DECK[Math.random()*DECK.length|0];
@@ -1269,8 +1278,8 @@ function renderDaily(){
     return;
   }
   const c=byId[entry.id];
-  area.innerHTML=`<h2>${todayStr()}</h2>
-    <img src="${c.file}" alt="${c.name}">
+  area.innerHTML=`<h2>${prettyDate(entry.date)}</h2>
+    <img src="${c.file}" alt="${c.name}"${entry.rev?' class="rev-img"':''}>
     <div class="prompt">${c.name}${entry.rev?' ⟳ (reversed)':''}</div>
     <details style="margin:10px 0"><summary>Reveal meaning</summary>
       <div class="mean up"><h4>Upright</h4><div>${c.up}</div></div>
@@ -1305,7 +1314,7 @@ document.getElementById('drawSpread').onclick=()=>{
     return `<div class="lesson">
       <h3>${POSITIONS[spreadN][i]}</h3>
       <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:flex-start">
-        <img src="${c.file}" alt="${c.name}" style="width:130px;border-radius:8px">
+        <img src="${c.file}" alt="${c.name}" style="width:130px;border-radius:8px"${rev?' class="rev-img"':''}>
         <div style="flex:1;min-width:200px">
           <b>${c.name}${rev?' ⟳ (reversed)':''}</b>
           <p class="muted">Write your interpretation for this position first…</p>
