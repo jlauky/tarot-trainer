@@ -1287,8 +1287,8 @@ function renderDaily(){
       ${LORE[c.id]?`<div class="mean"><h4 style="color:var(--gold)">Symbolism</h4>
         <ul style="margin:.3em 0 0;padding-left:1.1em">${LORE[c.id].sym.map(s=>`<li>${s}</li>`).join('')}</ul></div>`:''}
     </details>
-    ${LORE[c.id]?`<p class="muted" style="text-align:left">Today's prompt: <b>${LORE[c.id].advice}</b> Where does that apply right now?</p>`
-      :`<p class="muted" style="text-align:left">Reflection: where might <b>${entry.rev?c.rev.split(/[,.]/)[0].toLowerCase():c.up.split(/[,.]/)[0].toLowerCase()}</b> show up for you today?</p>`}`;
+    ${LORE[c.id]?`<p class="muted" style="text-align:center">Today's prompt: <b>${LORE[c.id].advice}</b> Where does that apply right now?</p>`
+      :`<p class="muted" style="text-align:center">Reflection: where might <b>${entry.rev?c.rev.split(/[,.]/)[0].toLowerCase():c.up.split(/[,.]/)[0].toLowerCase()}</b> show up for you today?</p>`}`;
 }
 
 /* ---------- SPREAD PRACTICE ---------- */
