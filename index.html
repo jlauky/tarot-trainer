@@ -445,7 +445,6 @@
   <section id="quiz" class="view">
     <div class="filters" style="justify-content:center">
       <button data-quiz="meaning" class="active">Name → meaning</button>
-      <button data-quiz="image">Image → name</button>
       <button data-quiz="keyword">Keyword → card</button>
       <button data-quiz="order">Major Arcana order</button>
     </div>
@@ -1198,10 +1197,6 @@ function startQuiz(){
     q=`<div class="quiz-card"><div class="prompt" style="font-size:19px;margin-bottom:14px">${answer.name}</div>
        <p class="muted">Pick the best upright meaning:</p><div class="opts">`+
        opts.map(o=>`<button data-id="${o.id}">${o.up}</button>`).join('')+`</div></div>`;
-  } else if(quizType==='image'){
-    q=`<div class="quiz-card"><img src="${answer.file}" alt="?">
-       <p class="muted">Which card is this?</p><div class="opts">`+
-       opts.map(o=>`<button data-id="${o.id}">${o.name}</button>`).join('')+`</div></div>`;
   } else { // keyword
     const kw=answer.tags.filter(t=>!/Major|Court|Pip|\d/.test(t));
     const word=answer.up.split(/[,.]/)[0];
