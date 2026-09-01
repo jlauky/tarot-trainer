@@ -1279,19 +1279,7 @@ function renderDaily(){
         <ul style="margin:.3em 0 0;padding-left:1.1em">${LORE[c.id].sym.map(s=>`<li>${s}</li>`).join('')}</ul></div>`:''}
     </details>
     ${LORE[c.id]?`<p class="muted" style="text-align:left">Today's prompt: <b>${LORE[c.id].advice}</b> Where does that apply right now?</p>`
-      :`<p class="muted" style="text-align:left">Reflection: where might <b>${entry.rev?c.rev.split(/[,.]/)[0].toLowerCase():c.up.split(/[,.]/)[0].toLowerCase()}</b> show up for you today?</p>`}
-    <textarea id="dailyNote" style="width:100%;min-height:90px;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:10px" placeholder="Your notes…">${entry.note||''}</textarea>
-    <button class="bigbtn ghost" id="saveNote" style="margin-top:8px">Save note</button>
-    <h3 style="margin-top:26px;text-align:left">Journal</h3>
-    <div style="text-align:left">${journal.slice(0,30).map(e=>{
-      const cc=byId[e.id];
-      return `<div class="lesson" style="padding:10px 14px"><b>${e.date}</b> — ${cc.name}${e.rev?' ⟳':''}${e.note?`<br><span class="muted">${e.note.replace(/</g,'&lt;')}</span>`:''}</div>`;
-    }).join('')}</div>`;
-  document.getElementById('saveNote').onclick=()=>{
-    entry.note=document.getElementById('dailyNote').value; saveJournal();
-    document.getElementById('saveNote').textContent='Saved ✓';
-    setTimeout(()=>document.getElementById('saveNote').textContent='Save note',1200);
-  };
+      :`<p class="muted" style="text-align:left">Reflection: where might <b>${entry.rev?c.rev.split(/[,.]/)[0].toLowerCase():c.up.split(/[,.]/)[0].toLowerCase()}</b> show up for you today?</p>`}`;
 }
 
 /* ---------- SPREAD PRACTICE ---------- */
